@@ -19,7 +19,7 @@ div.first_year {
 div.leader{
 	position:fixed;
 	text-align: right;
-	right: 10%
+	right: 10%;
 }
 
 p {
@@ -27,7 +27,9 @@ p {
 	font-family:century gothic thin;
 }
 
-h1{font-family:century gothic thin}
+h1{
+	font-family:century gothic thin;
+}
 
 h3{
 	font-family:century gothic thin;
