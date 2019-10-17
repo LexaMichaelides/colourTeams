@@ -1,0 +1,37 @@
+
+div.transbox {
+	margin: 30px;
+	background-color: #E0E0E0;
+	border: 1px solid #E0E0E0;
+}
+
+div.transbox p {
+	margin: 3%;
+	color: black;
+}	
+
+div.first_year {
+	position: fixed;
+	text-align: left;
+	left: 10%;
+}
+
+div.leader{
+	position:fixed;
+	text-align: right;
+	right: 10%;
+}
+
+p {
+	color: black;
+	font-family:century gothic thin;
+}
+
+h1{
+	font-family:century gothic thin;
+}
+
+h3{
+	font-family:century gothic thin;
+	color: #202020;
+}
