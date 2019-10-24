@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd 
+import os
+
 
 class sortingalgo:
     
@@ -51,3 +53,17 @@ class sortingalgo:
         summary = df.groupby(['group', 'gender']).size().reset_index(name='counts')
         
         return df
+
+    
+    local_directory = os.path.normpath(os.path.dirname(os.path.abspath(__file__)) + os.sep + os.pardir)
+    
+
+    leader_data = create_leader_groups(os.path.join(local_directory, 'test_files/Simulated Leader Data.csv'))
+    
+    student_data = create_student(os.path.join(local_directory, 'test_files/Simulated First Year Data.csv'))
+    
+
+    combined_data = pd.merge(leader_data, student_data, how='outer', on=['id', 'last_name', 'first_name', 'program',
+                                                                         'gender', 'email', 'watIam', 'group'])
+
+    combined_data.to_csv((os.path.join(local_directory, 'sorted_output.csv')), index=False)
