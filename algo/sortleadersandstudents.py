@@ -55,7 +55,8 @@ class sortingalgo:
         return df
 
     
-    local_directory = os.path.normpath(os.path.dirname(__file__) + os.sep + os.pardir)
+    local_directory = os.path.normpath(os.path.dirname(os.path.abspath(__file__)) + os.sep + os.pardir)
+    
 
     leader_data = create_leader_groups(os.path.join(local_directory, 'test_files/Simulated Leader Data.csv'))
     
