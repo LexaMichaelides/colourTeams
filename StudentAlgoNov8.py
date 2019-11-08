@@ -32,7 +32,7 @@ def create_student_groups(first_year_data, leader_summary):
 
     df['group'] = np.random.randint(1, 19, df.shape[0])
     
-    df = df.groupby(['program', 'gender','watIam']).size().reset_index(name='counts')
+    df = df.groupby(['program', 'gender','watIam', 'first_name', 'last_name', 'email', 'id']).size().reset_index(name='counts')
     
     #teamdf = pd.DataFrame(columns=['program', 'gender', 'watIam'])
     s = df.shape[0]-1
@@ -41,17 +41,17 @@ def create_student_groups(first_year_data, leader_summary):
     k=0
     n=1
     numberofprograms = 11
-    StudentFinaldf = pd.DataFrame(columns=['program', 'gender', 'watIam', 'team number'])
-    teamdf = pd.DataFrame(columns=['program', 'gender', 'watIam'])
+    StudentFinaldf = pd.DataFrame(columns=['program', 'gender', 'watIam', 'first_name', 'last_name', 'email', 'id', 'team number'])
+    teamdf = pd.DataFrame(columns=['program', 'gender', 'watIam', 'first_name', 'last_name', 'email', 'id'])
     for n in range(1,numberofprograms):
-        teamdf = pd.DataFrame(columns=['program', 'gender', 'watIam'])
+        teamdf = pd.DataFrame(columns=['program', 'gender', 'watIam', 'first_name', 'last_name', 'email', 'id'])
         while df.iat[j,0] == df.iat[j+1,0]:
-            teamdf.loc[j] = [df.iat[k,0],df.iat[k,1],df.iat[k,2]]
+            teamdf.loc[j] = [df.iat[k,0],df.iat[k,1],df.iat[k,2],df.iat[k,3],df.iat[k,4],df.iat[k,5],df.iat[k,6]]
             j=j+1
             k=k+1
             if j == df.shape[0]-1:
                 break
-        teamdf.loc[j] = [df.iat[k,0],df.iat[k,1],df.iat[k,2]]
+        teamdf.loc[j] = [df.iat[k,0],df.iat[k,1],df.iat[k,2],df.iat[k,3],df.iat[k,4],df.iat[k,5],df.iat[k,6]]
         j=j+1
         k=k+1
 
@@ -76,6 +76,3 @@ def create_student_groups(first_year_data, leader_summary):
         StudentFinaldf = pd.concat([StudentFinaldf, mergeddf], axis = 0)
     StudentFinaldf.to_csv('StudentSummary.csv')
     return StudentFinaldf
-
-
-
