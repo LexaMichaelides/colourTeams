@@ -13,7 +13,12 @@ results_path = os.path.join(app.root_path, 'results', 'sorted_output.csv')
 
 def get_data(leader_file_path, student_file_path):
 
-    leader_data = algo.create_leader_groups(leader_file_path)
+    while True:
+        try:
+            leader_data = algo.create_leader_groups(leader_file_path)
+        except:
+            continue
+        break
 
     student_data = algo.create_student_groups(student_file_path)
 

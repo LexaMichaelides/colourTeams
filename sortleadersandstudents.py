@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd 
-import os
 
 def create_leader_groups(path):
     inputdf = pd.read_csv(path)
@@ -30,7 +29,7 @@ def create_leader_groups(path):
     df['group'] = np.random.randint(1, 19, df.shape[0]) 
 
     #anti requests
-    df['name'] = df['last_name'] + ", " + df['first_name']
+    df['watIam'] = df['watIam']
 
     antiDF = df[df['anti1'].notnull()]
     antiDF['anti1group'] = ""
@@ -38,7 +37,7 @@ def create_leader_groups(path):
     #get the group that your anti request belongs
     for i, row in antiDF.iterrows():
         #searches df for name and fetches their respective group
-        antiDF['anti1group'][i] = df[df['name'] == row['anti1']]['group'].values
+        antiDF['anti1group'][i] = df[df['watIam'] == row['anti1']]['group'].values
         #handle case when name not found
         if antiDF['anti1group'][i].size == 0:
             antiDF['anti1group'][i] = [0]
@@ -54,12 +53,9 @@ def create_leader_groups(path):
     for i, row in antiDF.iterrows():
         anti_free_df['group'][i] = antiDF['group'][i]
 
-    anti_free_df = anti_free_df.drop(['name'], axis = 1)
-
     return anti_free_df
 
-  
- def create_student_groups(first_year_data, leader_summary):
+def create_student_groups(first_year_data, leader_summary):
 
      #read in data from CSV file 
      data = pd.read_csv(first_year_data)
