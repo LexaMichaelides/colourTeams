@@ -64,7 +64,7 @@ def create_leader_groups(path):
 
     #move anti-requests in antiDF
     groups = list(range(1,num_groups+1))
-    antiDF['group'] = antiDF.apply(lambda x: np.random.choice(list(set(groups) - {(antiDF['anti1group'][7])}), 1)[0] if x['group'] == x['anti1group'] else x['group'], axis=1)
+    antiDF['group'] = antiDF.apply(lambda x: np.random.choice(list(set(groups) - set(antiDF['anti1group'])), 1)[0] if x['group'] == x['anti1group'] else x['group'], axis=1)
 
     #apply changes to entire dataframe
     anti_free_df = df.copy()
@@ -73,8 +73,8 @@ def create_leader_groups(path):
         anti_free_df['group'][i] = antiDF['group'][i]
 
     return anti_free_df
-
-def create_student_groups(first_year_data, leader_summary):
+  
+def create_first_year_groups(first_year_data, leader_summary):
 
      #read in data from CSV file 
      data = pd.read_csv(first_year_data)
@@ -106,8 +106,8 @@ def create_student_groups(first_year_data, leader_summary):
 
      df = df.groupby(['program', 'gender','watIam', 'first_name', 'last_name', 'email', 'id']).size().reset_index(name='counts')
 
-     #teamdf = pd.DataFrame(columns=['program', 'gender', 'watIam'])
      s = df.shape[0]-1
+     
      #need to make dynamic in future to change number of programs
      j=0
      k=0
@@ -128,14 +128,14 @@ def create_student_groups(first_year_data, leader_summary):
          k=k+1
 
          h=0
-         availteamsdf = pd.DataFrame(columns=['team number'])
+         availteamsdf = pd.DataFrame(columns=['group'])
          for i, row in leaders.iterrows():
              if row['program'] == teamdf.iat[0,0]:
                  availteamsdf.loc[h] = row['group']
                  h=h+1
          l=0
          m=0
-         studentAssigndf = pd.DataFrame(columns=['team number'])        
+         studentAssigndf = pd.DataFrame(columns=['group'])        
          for l, row in teamdf.iterrows():
              studentAssigndf.loc[l] = availteamsdf.iat[m,0]
              if m == availteamsdf.shape[0]-1:
@@ -145,6 +145,5 @@ def create_student_groups(first_year_data, leader_summary):
 
          mergeddf = pd.concat([teamdf, studentAssigndf], axis = 1)
 
-         StudentFinaldf = pd.concat([StudentFinaldf, mergeddf], axis = 0)
-     StudentFinaldf.to_csv('StudentSummary.csv')
+         StudentFinaldf = pd.concat([StudentFinaldf, mergeddf], axis = 0, sort=False)
      return StudentFinaldf

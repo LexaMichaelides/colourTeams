@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 import sortleadersandstudents as algo
 from flask import Flask, render_template, request, redirect, flash, send_file
 from werkzeug.utils import secure_filename
