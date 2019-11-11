@@ -1,11 +1,13 @@
 import os
 import sortleadersandstudents as algo
-from flask import Flask, render_template, request, redirect, flash, send_file
+import createsummaries as summary
+from flask import Flask, render_template, request, redirect, flash, send_file, send_from_directory
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 results_path = os.path.join(app.root_path, 'results', 'sorted_output.csv')
+result_summary_path = os.path.join(app.root_path, 'results', 'summary_output.csv')
 
 @app.route('/', methods=['GET', 'POST'])
 def upload():
@@ -23,9 +25,16 @@ def upload():
                 return render_template('upload.html')
 
             else:
-                result = algo.create_leader_groups(leader_file)
-                result.to_csv(results_path, index = False)
-                return redirect('/download')
+                while True:
+                    try:
+                        result = algo.create_leader_groups(leader_file)
+                        result.to_csv(results_path, index = False)
+                        resultSummary = summary.create_leader_summary(result)
+                        resultSummary.to_csv(result_summary_path, index = False)
+                        return redirect('/download')
+                    except:
+                        continue
+                    break
 
         elif 'student_data' in request.files and 'sorted_leader_data' in request.files:
             student_file = request.files['student_data']
@@ -36,8 +45,10 @@ def upload():
                 return render_template('upload.html')
 
             else:
-                result = algo.create_student_groups(student_file, sorted_leader_file)
+                result = algo.create_first_year_groups(student_file, sorted_leader_file)
                 result.to_csv(results_path, index = False)
+                resultSummary = summary.create_first_year_summary(result)
+                resultSummary.to_csv(result_summary_path, index = False)
                 return redirect('/download') 
 
     return render_template('upload.html')
@@ -45,7 +56,10 @@ def upload():
 @app.route('/download', methods=['GET', 'POST'])
 def download():
     if request.method == 'POST':
-        return send_file(results_path)
+        if request.form['download_button'] == 'result':
+             return send_file(results_path)
+        elif request.form['download_button'] == 'summary':
+             return send_file(result_summary_path)
 
     return render_template('download.html')
 
