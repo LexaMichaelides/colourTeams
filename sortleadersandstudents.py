@@ -25,8 +25,27 @@ def create_leader_groups(path):
 
     df = inputdf
 
-    #assign leaders based on rand unif distribution [1,19)
-    df['group'] = np.random.randint(1, 19, df.shape[0]) 
+    #sorting by gender and program 
+    df=df.sort_values(by =['program','gender']) 
+    #assign leaders based on unif distribution [1,19)
+    m=0
+    for l, row in df.iterrows():
+        if m == 18:
+            m=1
+            df.at[l,'group']=m 
+        else:
+            m=m+1
+            df.at[l,'group']=m 
+
+    #software engineering into 6 teams 
+    n=0
+    for l, row in df.loc[df['program'] == 'SE'].iterrows():
+        if n == 6:
+            n=1
+            df.at[l,'group']=n
+        else:
+            n=n+1
+            df.at[l,'group']=n
 
     #anti requests
     df['watIam'] = df['watIam']
