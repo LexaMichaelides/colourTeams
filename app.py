@@ -1,5 +1,6 @@
 import os
-import sortleadersandstudents as algo
+import sortleaders as leaderAlgo
+import sortstudents as studentAlgo
 import createsummaries as summary
 from flask import Flask, render_template, request, redirect, flash, send_file, send_from_directory
 from werkzeug.utils import secure_filename
@@ -27,7 +28,7 @@ def upload():
             else:
                 while True:
                     try:
-                        result = algo.create_leader_groups(leader_file)
+                        result = leaderAlgo.create_leader_groups(leader_file)
                         result.to_csv(results_path, index = False)
                         resultSummary = summary.create_leader_summary(result)
                         resultSummary.to_csv(result_summary_path, index = False)
@@ -45,7 +46,7 @@ def upload():
                 return render_template('upload.html')
 
             else:
-                result = algo.create_first_year_groups(student_file, sorted_leader_file)
+                result = studentAlgo.create_first_year_groups(student_file, sorted_leader_file)
                 result.to_csv(results_path, index = False)
                 resultSummary = summary.create_first_year_summary(result)
                 resultSummary.to_csv(result_summary_path, index = False)
