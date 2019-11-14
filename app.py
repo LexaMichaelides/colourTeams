@@ -32,7 +32,7 @@ def upload():
                         result.to_csv(results_path, index = False)
                         resultSummary = summary.create_leader_summary(result)
                         resultSummary.to_csv(result_summary_path, index = False)
-                        return redirect('/download')
+                        return redirect('/leader_download')
                     except:
                         continue
                     break
@@ -50,17 +50,27 @@ def upload():
                 result.to_csv(results_path, index = False)
                 resultSummary = summary.create_first_year_summary(result)
                 resultSummary.to_csv(result_summary_path, index = False)
-                return redirect('/download') 
+                return redirect('/first_year_download') 
 
     return render_template('upload.html')
 
-@app.route('/download', methods=['GET', 'POST'])
-def download():
+@app.route('/leader_download', methods=['GET', 'POST'])
+def leader_download():
     if request.method == 'POST':
         if request.form['download_button'] == 'result':
-             return send_file(results_path)
+             return send_file(results_path, mimetype='text/csv', attachment_filename='leader_result.csv', as_attachment=True)
         elif request.form['download_button'] == 'summary':
-             return send_file(result_summary_path)
+             return send_file(result_summary_path, mimetype='text/csv', attachment_filename='leader_summary.csv', as_attachment=True)
+
+    return render_template('download.html')
+
+@app.route('/first_year_download', methods=['GET', 'POST'])
+def first_year_download():
+    if request.method == 'POST':
+        if request.form['download_button'] == 'result':
+             return send_file(results_path, mimetype='text/csv', attachment_filename='first_year_result.csv', as_attachment=True)
+        elif request.form['download_button'] == 'summary':
+             return send_file(result_summary_path, mimetype='text/csv', attachment_filename='first_year_summary.csv', as_attachment=True)
 
     return render_template('download.html')
 
