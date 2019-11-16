@@ -13,16 +13,15 @@ result_summary_path = os.path.join(app.root_path, 'results', 'summary_output.csv
 @app.route('/', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
-
-        if 'student_data' not in request.files and 'leader_data' not in request.files and 'sorted_leader_data' not in request.files:
-            flash('No file part')
+        if 'student_data' not in request.files and 'sorted_leader_data_to_summary' not in request.files and 'leader_data' not in request.files and 'sorted_leader_data' not in request.files:
+            flash('No Files Selected')
             return render_template('upload.html')
-
+            
         elif 'leader_data' in request.files:
             leader_file = request.files['leader_data']
 
             if leader_file.filename == '':
-                flash('No Selected File')
+                flash('No Leader Data file uploaded')
                 return render_template('upload.html')
 
             else:
@@ -36,15 +35,31 @@ def upload():
                     except:
                         continue
                     break
-
-        elif 'student_data' in request.files and 'sorted_leader_data' in request.files:
+        
+        elif 'sorted_leader_data_to_summary' in request.files:
+            sorted_leader_data_to_summary = request.files['sorted_leader_data_to_summary']
+            
+            if sorted_leader_data_to_summary.filename == '':
+                flash('No Leader Data file uploaded')
+                return render_template('upload.html')
+            
+        
+        elif 'student_data' in request.files or 'leader_data' in request.files:
             student_file = request.files['student_data']
             sorted_leader_file = request.files['sorted_leader_data']
 
-            if student_file.filename == '' and leader_file.filename == '' and sorted_leader_file.filename == ''  :
-                flash('No Selected File')
+            if student_file.filename == '' and sorted_leader_file.filename == '':
+                flash('No First Year Data and Leader Data files uploaded')
+                return render_template('upload.html')
+            
+            if student_file.filename == '':
+                flash('No First Year Data file uploaded')
                 return render_template('upload.html')
 
+            if sorted_leader_file.filename == ''  :
+                flash('No Leader Data file uploaded')
+                return render_template('upload.html')
+            
             else:
                 result = studentAlgo.create_first_year_groups(student_file, sorted_leader_file)
                 result.to_csv(results_path, index = False)
@@ -73,6 +88,14 @@ def first_year_download():
              return send_file(result_summary_path, mimetype='text/csv', attachment_filename='first_year_summary.csv', as_attachment=True)
 
     return render_template('download.html')
+
+@app.route('/leader_summary_download', methods=['GET', 'POST'])
+def leader_summary_download():
+    if request.method == 'POST':
+        if request.form['download_button'] == 'summary':
+             return send_file(results_path, mimetype='text/csv', attachment_filename='leader_summary.csv', as_attachment=True)
+
+    return render_template('leader_summary_download.html')
 
 if __name__ == '__main__':
     app.run(debug=False)
