@@ -34,19 +34,18 @@
         <div class="row">
 				<div class="col-sm">
 					<h3 class=text-center>Sort Leader Data</h3>
-					<h6 class=text-center>1. In the box below, upload the leader data in .csv format</h6>
-					<h6 class=text-center>2. Click sort</h6>
+					<h6 class=text-center>1. In the box below, upload a CSV file with the leader data </h6>
+					<h6 class=text-center>2. Click "Sort" </h6>
 
 					<form class="border rounded p-5" method=post enctype=multipart/form-data>
 
 						<div class="text-center">
-							<p>Leader Data</p>
 						</div>
 		
 						<div class="d-flex justify-content-center">
 							<div class="custom-file mb-3">
 								<input type="file" class="custom-file-input" id="customFile" name="leader_data">
-								<label class="custom-file-label" for="customFile">Choose file</label>
+								<label class="custom-file-label" for="customFile">Select Leader Data File</label>
 							</div>
 						</div>
 		
@@ -57,22 +56,22 @@
                         </div>
 					</form>
 				</div>
-
+            </div>
+            <div class="row">
                 <div class="col-sm">
 					<h3 class=text-center>Create Leader Data Summary</h3>
-					<h6 class=text-center>1. Upload sorted leader data in .csv format</h6>
-					<h6 class=text-center>2. Click Create summary</h6>
+					<h6 class=text-center>1. In the box below, upload the sorted_leader_data.csv file</h6>
+					<h6 class=text-center>2. Click "Create Summary"</h6>
 
 					<form class="border rounded p-5" method=post enctype=multipart/form-data>
 
 						<div class="text-center">
-							<p>Sorted Leader Data</p>
 						</div>
 		
 						<div class="d-flex justify-content-center">
 							<div class="custom-file mb-3">
-								<input type="file" class="custom-file-input" id="customFile" name="leader_data_summary">
-								<label class="custom-file-label" for="customFile">Choose file</label>
+								<input type="file" class="custom-file-input" id="customFile" name="sorted_leader_data_to_summary">
+								<label class="custom-file-label" for="customFile">Select sorted_leader_data.csv </label>
 							</div>
 						</div>
 		
@@ -83,27 +82,27 @@
                         </div>
 					</form>
                 </div>
+            </div>
+            <div class="row">
 				<div class="col-sm">
 					<h3 class=text-center>Sort First Year Data</h3>
-					<h6 class=text-center>1. In the first box, upload the first year data in .csv format</h6>
-					<h6 class=text-center>2. In the second box, upload the sorted leader data in .csv format</h6>
-					<h6 class=text-center>3. Click sort</h6>
+					<h6 class=text-center>1. In the first box below, upload a CSV file with first year data </h6>
+					<h6 class=text-center>2. In the second box below, upload the upload the leader_summary.csv file</h6>
+					<h6 class=text-center>3. Click "Sort"</h6>
 					<h6 class=text-center>Note: It will take approximately 30 seconds to run</h6>
 					<form class="border rounded p-5" method=post enctype=multipart/form-data>
 				
 						<div class="text-center">
-							<p>First Year Data</p>
 						</div>
 	
 						<div class="d-flex justify-content-center">
 							<div class="custom-file mb-3">
 								<input type="file" class="custom-file-input" id="customFile" name="student_data">
-								<label class="custom-file-label" for="customFile">Choose file</label>
+								<label class="custom-file-label" for="customFile">Select First Year Data file</label>
 							</div>
 						</div>
 	
 						<div class="text-center">
-							<p>Sorted Leader Data</p>
 						</div>
 	
 						<div class="d-flex justify-content-center">
@@ -121,6 +120,7 @@
 					</form>
 				</div>		
 			</div>
+        </div>
 		</div>
     </body>
 </html>

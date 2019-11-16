@@ -13,7 +13,7 @@ result_summary_path = os.path.join(app.root_path, 'results', 'summary_output.csv
 @app.route('/', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
-        if 'student_data' not in request.files and 'leader_data_summary' not in request.files and 'leader_data' not in request.files and 'sorted_leader_data' not in request.files:
+        if 'student_data' not in request.files and 'sorted_leader_data_to_summary' not in request.files and 'leader_data' not in request.files and 'sorted_leader_data' not in request.files:
             flash('No Files Selected')
             return render_template('upload.html')
             
@@ -36,11 +36,11 @@ def upload():
                         continue
                     break
         
-        elif 'leader_data_summary' in request.files:
-            leader_summary_file = request.files['leader_data_summary']
+        elif 'sorted_leader_data_to_summary' in request.files:
+            sorted_leader_data_to_summary = request.files['sorted_leader_data_to_summary']
             
-            if leader_summary_file.filename == '':
-                flash('No Leader Data Summary file uploaded')
+            if sorted_leader_data_to_summary.filename == '':
+                flash('No Leader Data file uploaded')
                 return render_template('upload.html')
             
         
