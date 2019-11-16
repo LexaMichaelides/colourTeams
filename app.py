@@ -73,7 +73,7 @@ def upload():
 def leader_download():
     if request.method == 'POST':
         if request.form['download_button'] == 'result':
-             return send_file(results_path, mimetype='text/csv', attachment_filename='leader_result.csv', as_attachment=True)
+             return send_file(results_path, mimetype='text/csv', attachment_filename='sorted_leader_data.csv', as_attachment=True)
         elif request.form['download_button'] == 'summary':
              return send_file(result_summary_path, mimetype='text/csv', attachment_filename='leader_summary.csv', as_attachment=True)
 
@@ -83,7 +83,7 @@ def leader_download():
 def first_year_download():
     if request.method == 'POST':
         if request.form['download_button'] == 'result':
-             return send_file(results_path, mimetype='text/csv', attachment_filename='first_year_result.csv', as_attachment=True)
+             return send_file(results_path, mimetype='text/csv', attachment_filename='sorted_first_year_data.csv', as_attachment=True)
         elif request.form['download_button'] == 'summary':
              return send_file(result_summary_path, mimetype='text/csv', attachment_filename='first_year_summary.csv', as_attachment=True)
 
