@@ -44,12 +44,12 @@ def upload():
                 return render_template('upload.html')
             
         
-        elif 'student_data' in request.files or 'sorted_leader_data' in request.files:
+        elif 'student_data' in request.files or 'leader_data' in request.files:
             student_file = request.files['student_data']
             sorted_leader_file = request.files['sorted_leader_data']
 
             if student_file.filename == '' and sorted_leader_file.filename == '':
-                flash('No First Year Data and Sorted Leader Data files uploaded')
+                flash('No First Year Data and Leader Data files uploaded')
                 return render_template('upload.html')
             
             if student_file.filename == '':
@@ -57,7 +57,7 @@ def upload():
                 return render_template('upload.html')
 
             if sorted_leader_file.filename == ''  :
-                flash('No Sorted Leader Data file uploaded')
+                flash('No Leader Data file uploaded')
                 return render_template('upload.html')
             
             else:
