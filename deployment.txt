@@ -1,0 +1,23 @@
+Deployment Documentation
+
+1. Create Github account
+	a. Create an account here:  https://github.com/join and complete the sign up form. Record/remember your username.
+	b. When setting up your account, choose the “Unlimited public repositories for free.” option.
+	c. Skip the useage questions.
+	d. Verify your Github account through email.
+
+2. Create Heroku account - Heroku is a service that will allow you to deploy the web application using a cloud platform.
+        a. Vist https://id.heroku.com/login to create free account. For email, use your uwaterloo.ca address. Set Role to "Other" and Primary development language to "I am not a developer".
+	b. Check your email to activate the Heroku account. Click the link to activate your account and set a password.
+
+3. Email Lexa (?) your Github username and the email address used for Heroku
+
+4. In Heroku:
+	a. New > Create New app
+	b. The app name you set will the the URL of the web application (eg. orientation-sorting-2019)
+	c. Under the deploy tab, select "Github" as the deployment method
+	d. Under "Connect to Github" select UWaterlooMSCI342 and enter "2019-Team-5" as your repo name
+	e. Ensure that master branch is selected to deploy and select enable automatic deploys
+
+5. Navigate to https://[application name].herokuapp.com/
+
