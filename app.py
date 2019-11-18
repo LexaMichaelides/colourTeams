@@ -2,6 +2,7 @@ import os
 import sortleaders as leaderAlgo
 import sortstudents as studentAlgo
 import createsummaries as summary
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, flash, send_file, send_from_directory
 from werkzeug.utils import secure_filename
 
@@ -27,9 +28,9 @@ def upload():
             else:
                 while True:
                     try:
-                        result = leaderAlgo.create_leader_groups(leader_file)
-                        result.to_csv(results_path, index = False)
-                        resultSummary = summary.create_leader_summary(result)
+                        leaderdf = leaderAlgo.create_leader_groups(leader_file)
+                        leaderdf.to_csv(results_path, index = False)
+                        resultSummary = summary.initial_leader_summary(leaderdf)
                         resultSummary.to_csv(result_summary_path, index = False)
                         return redirect('/leader_download')
                     except:
@@ -42,7 +43,10 @@ def upload():
             if sorted_leader_data_to_summary.filename == '':
                 flash('No Leader Data file uploaded')
                 return render_template('upload.html')
-            
+            else:
+                leader_summary = summary.create_leader_summary(sorted_leader_data_to_summary)
+                leader_summary.to_csv(result_summary_path, index = False)
+                return redirect('/leader_summary_download')
         
         elif 'student_data' in request.files or 'leader_data' in request.files:
             student_file = request.files['student_data']
@@ -73,9 +77,11 @@ def upload():
 def leader_download():
     if request.method == 'POST':
         if request.form['download_button'] == 'result':
-             return send_file(results_path, mimetype='text/csv', attachment_filename='sorted_leader_data.csv', as_attachment=True)
+            result_file_name = 'sorted_leader_data_' + datetime.utcnow().strftime("%Y%m%d-%H%M%S") + '.csv'
+            return send_file(results_path, mimetype='text/csv', attachment_filename=result_file_name, as_attachment=True)
         elif request.form['download_button'] == 'summary':
-             return send_file(result_summary_path, mimetype='text/csv', attachment_filename='leader_summary.csv', as_attachment=True)
+            summary_file_name = 'leader_summary_' + datetime.utcnow().strftime("%Y%m%d-%H%M%S") + '.csv'
+            return send_file(result_summary_path, mimetype='text/csv', attachment_filename=summary_file_name, as_attachment=True)
 
     return render_template('download.html')
 
@@ -83,9 +89,11 @@ def leader_download():
 def first_year_download():
     if request.method == 'POST':
         if request.form['download_button'] == 'result':
-             return send_file(results_path, mimetype='text/csv', attachment_filename='sorted_first_year_data.csv', as_attachment=True)
+            result_file_name = 'sorted_first_year_data_' + datetime.utcnow().strftime("%Y%m%d-%H%M%S") + '.csv'
+            return send_file(results_path, mimetype='text/csv', attachment_filename=result_file_name, as_attachment=True)
         elif request.form['download_button'] == 'summary':
-             return send_file(result_summary_path, mimetype='text/csv', attachment_filename='first_year_summary.csv', as_attachment=True)
+            summary_file_name = 'first_year_summary_' + datetime.utcnow().strftime("%Y%m%d-%H%M%S") + '.csv'
+            return send_file(result_summary_path, mimetype='text/csv', attachment_filename=summary_file_name, as_attachment=True)
 
     return render_template('download.html')
 
@@ -93,7 +101,8 @@ def first_year_download():
 def leader_summary_download():
     if request.method == 'POST':
         if request.form['download_button'] == 'summary':
-             return send_file(results_path, mimetype='text/csv', attachment_filename='leader_summary.csv', as_attachment=True)
+            summary_file_name = 'updated_leader_summary_' + datetime.utcnow().isoformat() + '.csv'
+            return send_file(result_summary_path, mimetype='text/csv', attachment_filename=summary_file_name, as_attachment=True)
 
     return render_template('leader_summary_download.html')
 
