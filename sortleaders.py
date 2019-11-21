@@ -47,25 +47,33 @@ def create_leader_groups(path):
             n = n + 1
             df.at[l, 'group'] = n
 
+    df['group'] = df['group'].round(0).astype(int)
+
     # anti requests
     df['watIam'] = df['watIam']
 
     antiDF = df[df['anti1'].notnull()]
     antiDF['anti1group'] = ""
+    antiDF['anti2group'] = ""
 
     # get the group that your anti request belongs
     for i, row in antiDF.iterrows():
         # searches df for name and fetches their respective group
         antiDF['anti1group'][i] = df[df['watIam'] == row['anti1']]['group'].values
+        antiDF['anti2group'][i] = df[df['watIam'] == row['anti2']]['group'].values
         # handle case when name not found
         if antiDF['anti1group'][i].size == 0:
             antiDF['anti1group'][i] = [0]
         antiDF['anti1group'][i] = antiDF['anti1group'][i][0]
+        if antiDF['anti2group'][i].size == 0:
+            antiDF['anti2group'][i] = [0]
+        antiDF['anti2group'][i] = antiDF['anti2group'][i][0]
 
     # move anti-requests in antiDF
     groups = list(range(1, num_groups + 1))
     antiDF['group'] = antiDF.apply(
-        lambda x: np.random.choice(list(set(groups) - set(antiDF['anti1group'])), 1)[0] if x['group'] == x[
+        lambda x: np.random.choice(list(set(groups) - set(antiDF['anti1group']) - set(antiDF['anti2group'])), 1)[0] if
+        x['group'] == x[
             'anti1group'] else x['group'], axis=1)
 
     # apply changes to entire dataframe
