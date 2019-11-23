@@ -1,10 +1,11 @@
 import numpy as np
 import pandas as pd
 
-def create_leader_groups(path):
+def create_leader_groups(path, team_number, SEteam_number):
     inputdf = pd.read_csv(path)
 
-    num_groups = 18
+    num_groups = team_number
+    num_SE_groups = SEteam_number
 
     # replace "U" and "A" genders with a random choice of {"F", "M"}
     genders = ["M", "F"]
@@ -30,7 +31,7 @@ def create_leader_groups(path):
     # assign leaders based on unif distribution [1,19)
     m = 0
     for l, row in df.iterrows():
-        if m == 18:
+        if m == num_groups:
             m = 1
             df.at[l, 'group'] = m
         else:
@@ -40,7 +41,7 @@ def create_leader_groups(path):
             # software engineering into 6 teams
     n = 0
     for l, row in df.loc[df['program'] == 'SE'].iterrows():
-        if n == 6:
+        if n == num_SE_groups:
             n = 1
             df.at[l, 'group'] = n
         else:
