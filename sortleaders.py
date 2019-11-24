@@ -1,10 +1,9 @@
 import numpy as np
 import pandas as pd
 
-def create_leader_groups(path):
+def create_leader_groups(path, num_groups,num_se_groups):
+    
     inputdf = pd.read_csv(path)
-
-    num_groups = 18
 
     # replace "U" and "A" genders with a random choice of {"F", "M"}
     genders = ["M", "F"]
@@ -25,30 +24,38 @@ def create_leader_groups(path):
 
     df = inputdf
 
-    # sorting by gender and program
-    df = df.sort_values(by=['program', 'gender'])
-    # assign leaders based on unif distribution [1,19)
-    m = 0
-    for l, row in df.iterrows():
-        if m == 18:
-            m = 1
-            df.at[l, 'group'] = m
+
+    # assign leaders to gorups
+    df = df.sort_values(by=['program', 'gender', 'returnBig', 'returnHuge'])
+    group = 0
+    se_group = 0
+    group_size = int(inputdf.shape[0]/num_groups)
+    group_count = [0] * num_groups
+
+    for i, row in df.iterrows():
+
+        if row['program'] == 'SE':
+            df.at[i, 'group'] = se_group + 1
+            if se_group == num_se_groups - 1:
+                se_group = 0
+            else:
+                se_group += 1
+            
         else:
-            m = m + 1
-            df.at[l, 'group'] = m
+            if group_count[group] < group_size:
+                df.at[i, 'group'] = group + 1
+                group_count[group] += 1
+            else:
+                while group_count[group] > group_size:
+                    group += 1
+                df.at[i, 'group'] = group + 1
+                group_count[group] += 1
 
-            # software engineering into 6 teams
-    n = 0
-    for l, row in df.loc[df['program'] == 'SE'].iterrows():
-        if n == 6:
-            n = 1
-            df.at[l, 'group'] = n
-        else:
-            n = n + 1
-            df.at[l, 'group'] = n
-
-    df['group'] = df['group'].round(0).astype(int)
-
+            if group == num_groups - 1:
+                group = 0
+            else:
+                group += 1
+                
     # anti requests
     df['watIam'] = df['watIam']
 

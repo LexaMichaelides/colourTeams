@@ -28,7 +28,7 @@ def upload():
             else:
                 while True:
                     try:
-                        leaderdf = leaderAlgo.create_leader_groups(leader_file)
+                        leaderdf = leaderAlgo.create_leader_groups(leader_file, 18, 6)
                         leaderdf.to_csv(results_path, index = False)
                         resultSummary = summary.initial_leader_summary(leaderdf)
                         resultSummary.to_csv(result_summary_path, index = False)
