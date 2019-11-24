@@ -1,11 +1,9 @@
 import numpy as np
 import pandas as pd
 
-def create_leader_groups(path, team_number, SEteam_number):
+def create_leader_groups(path, num_groups,num_se_groups):
+    
     inputdf = pd.read_csv(path)
-
-    num_groups = team_number
-    num_SE_groups = SEteam_number
 
     # replace "U" and "A" genders with a random choice of {"F", "M"}
     genders = ["M", "F"]
@@ -26,30 +24,38 @@ def create_leader_groups(path, team_number, SEteam_number):
 
     df = inputdf
 
-    # sorting by gender and program
-    df = df.sort_values(by=['program', 'gender'])
-    # assign leaders based on unif distribution [1,19)
-    m = 0
-    for l, row in df.iterrows():
-        if m == num_groups:
-            m = 1
-            df.at[l, 'group'] = m
+
+    # assign leaders to gorups
+    df = df.sort_values(by=['program', 'gender', 'returnBig', 'returnHuge'])
+    group = 0
+    se_group = 0
+    group_size = int(inputdf.shape[0]/num_groups)
+    group_count = [0] * num_groups
+
+    for i, row in df.iterrows():
+
+        if row['program'] == 'SE':
+            df.at[i, 'group'] = se_group + 1
+            if se_group == num_se_groups - 1:
+                se_group = 0
+            else:
+                se_group += 1
+            
         else:
-            m = m + 1
-            df.at[l, 'group'] = m
+            if group_count[group] < group_size:
+                df.at[i, 'group'] = group + 1
+                group_count[group] += 1
+            else:
+                while group_count[group] > group_size:
+                    group += 1
+                df.at[i, 'group'] = group + 1
+                group_count[group] += 1
 
-            # software engineering into 6 teams
-    n = 0
-    for l, row in df.loc[df['program'] == 'SE'].iterrows():
-        if n == num_SE_groups:
-            n = 1
-            df.at[l, 'group'] = n
-        else:
-            n = n + 1
-            df.at[l, 'group'] = n
-
-    df['group'] = df['group'].round(0).astype(int)
-
+            if group == num_groups - 1:
+                group = 0
+            else:
+                group += 1
+                
     # anti requests
     df['watIam'] = df['watIam']
 
