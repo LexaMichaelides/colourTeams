@@ -28,7 +28,7 @@ def upload():
             else:
                 while True:
                     try:
-                        leaderdf = leaderAlgo.create_leader_groups(leader_file, request.form['team_numbers'], request.form['SEteam_numbers'])
+                        leaderdf = leaderAlgo.create_leader_groups(leader_file, int(request.form['team_numbers']), int(request.form['SEteam_numbers']))
                         leaderdf.to_csv(results_path, index = False)
                         resultSummary = summary.initial_leader_summary(leaderdf)
                         resultSummary.to_csv(result_summary_path, index = False)
