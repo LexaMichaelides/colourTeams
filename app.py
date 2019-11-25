@@ -76,6 +76,8 @@ def upload():
 @app.route('/leader_download', methods=['GET', 'POST'])
 def leader_download():
     if request.method == 'POST':
+        if request.form['download_button'] == 'back':
+            return redirect('/')
         if request.form['download_button'] == 'result':
             result_file_name = 'sorted_leader_data_' + datetime.utcnow().strftime("%Y%m%d-%H%M%S") + '.csv'
             return send_file(results_path, mimetype='text/csv', attachment_filename=result_file_name, as_attachment=True)
@@ -88,6 +90,8 @@ def leader_download():
 @app.route('/first_year_download', methods=['GET', 'POST'])
 def first_year_download():
     if request.method == 'POST':
+        if request.form['download_button'] == 'back':
+            return redirect('/')
         if request.form['download_button'] == 'result':
             result_file_name = 'sorted_first_year_data_' + datetime.utcnow().strftime("%Y%m%d-%H%M%S") + '.csv'
             return send_file(results_path, mimetype='text/csv', attachment_filename=result_file_name, as_attachment=True)
@@ -100,6 +104,8 @@ def first_year_download():
 @app.route('/leader_summary_download', methods=['GET', 'POST'])
 def leader_summary_download():
     if request.method == 'POST':
+        if request.form['download_button'] == 'back':
+            return redirect('/')
         if request.form['download_button'] == 'summary':
             summary_file_name = 'updated_leader_summary_' + datetime.utcnow().isoformat() + '.csv'
             return send_file(result_summary_path, mimetype='text/csv', attachment_filename=summary_file_name, as_attachment=True)
