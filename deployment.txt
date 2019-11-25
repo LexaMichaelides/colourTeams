@@ -1,6 +1,6 @@
 Deployment Documentation
 
-1. Create Github account
+1. Create Github account - This website will give you access to the code we use for our project.
 	a. Create an account here:  https://github.com/join and complete the sign up form. Record/remember your username.
 	b. When setting up your account, choose the “Unlimited public repositories for free.” option.
 	c. Skip the useage questions.
@@ -10,7 +10,7 @@ Deployment Documentation
         a. Vist https://id.heroku.com/login to create free account. For email, use your uwaterloo.ca address. Set Role to "Other" and Primary development language to "I am not a developer".
 	b. Check your email to activate the Heroku account. Click the link to activate your account and set a password.
 
-3. Email Lexa (?) your Github username and the email address used for Heroku
+3. Email Lexa your Github username and the email address used for Heroku
 
 4. In Heroku:
 	a. New > Create New app
