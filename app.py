@@ -107,7 +107,7 @@ def leader_summary_download():
         if request.form['download_button'] == 'back':
             return redirect('/')
         if request.form['download_button'] == 'summary':
-            summary_file_name = 'updated_leader_summary_' + datetime.utcnow().isoformat() + '.csv'
+            summary_file_name = 'updated_leader_summary_' + datetime.utcnow().strftime("%Y%m%d-%H%M%S") + '.csv'
             return send_file(result_summary_path, mimetype='text/csv', attachment_filename=summary_file_name, as_attachment=True)
 
     return render_template('leader_summary_download.html')
